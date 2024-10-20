@@ -8,6 +8,10 @@
     "types": [
       "node"
     ],
+    "paths": {
+      "@/*": ["./src/*"]
+    },
+    "outDir": "dist",
     "jsx": "react-jsx",
     "jsxImportSource": "hono/jsx",
   }

@@ -1,7 +1,6 @@
 import { serve } from "@hono/node-server";
 import { Hono } from "hono";
 import { cors } from "hono/cors";
-import { handle } from '@hono/node-server/vercel'
 
 
 const app = new Hono();
@@ -16,9 +15,12 @@ app.use(
     credentials: true,
   })
 );
-
-app.get("/auth", (c) => {
+app.get("/", (c) => {
   return c.text("Hello Hono!");
+});
+
+app.get("/", (c) => {
+  return c.text("Hello Auth!");
 });
 app.get("playlist", (c) => {
   return c.text("Hello playlist!");
@@ -36,4 +38,4 @@ serve({
   port,
 });
 
-export default handle(app)
+export default app
