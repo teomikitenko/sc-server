@@ -43,13 +43,11 @@ app.get("/auth", async (c) => {
   });
   const payload: AuthToken = await authDataReq.json();
   console.log(payload)
-/*   await sql`INSERT INTO authdata (access_token, expires_in, refresh_token, scope, token_type) VALUES (${
-    (payload.access_token,
-    payload.expires_in,
-    payload.refresh_token,
-    payload.scope,
-    payload.token_type)
-  });`; */
+   await sql`INSERT INTO authdata (access_token, expires_in, refresh_token, scope, token_type) VALUES (${payload.access_token},
+    ${payload.expires_in},
+    ${payload.refresh_token},
+    ${payload.scope},
+    ${payload.token_type});`;
   c.header("Access-Control-Allow-Origin", "*");
   c.status(200);
   return c.text("Auth Succefully");
