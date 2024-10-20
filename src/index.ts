@@ -2,8 +2,10 @@ import { serve } from "@hono/node-server";
 import { Hono } from "hono";
 import { cors } from "hono/cors";
 import { sql } from "@vercel/postgres";
-import { env } from 'hono/adapter'
+import { env } from "hono/adapter";
+import dotenv from "dotenv";
 
+dotenv.config({ path: ".env" });
 
 import type { AuthToken } from "../types/types";
 
@@ -23,13 +25,11 @@ app.get("/", (c) => {
 });
 
 app.get("/auth", async (c) => {
+  const { CLIENT_ID, CLIENT_SECRET } = env(c);
   const params = new URLSearchParams();
   params.append("grant_type", "client_credentials");
   const auth =
-    "Basic " +
-    Buffer.from(
-      process.env.CLIENT_ID + ":" + process.env.CLIENT_SECRET
-    ).toString("base64");
+    "Basic " + Buffer.from(CLIENT_ID + ":" + CLIENT_SECRET).toString("base64");
 
   const authDataReq = await fetch("https://secure.soundcloud.com/oauth/token", {
     method: "POST",
@@ -51,7 +51,7 @@ app.get("/auth", async (c) => {
   });`;
   c.header("Access-Control-Allow-Origin", "*");
   c.status(200);
-  return c.text('Auth Succefully');
+  return c.text("Auth Succefully");
 });
 
 app.get("/playlist", (c) => {
