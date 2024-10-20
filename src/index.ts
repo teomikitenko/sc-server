@@ -51,7 +51,7 @@ app.get("/auth", async (c) => {
   });`;
   c.header("Access-Control-Allow-Origin", "*");
   c.status(200);
-  return c.json(payload);
+  return c.text('Auth Succefully');
 });
 
 app.get("/playlist", (c) => {
