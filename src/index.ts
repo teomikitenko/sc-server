@@ -93,6 +93,7 @@ app.get("/playlist", async (c) => {
   c.status(200);
   c.header("Access-Control-Allow-Origin", "*");
   return c.json(payload); */
+  console.log(access_token)
   return c.text('GO')
 });
 
