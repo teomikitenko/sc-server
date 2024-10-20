@@ -2,7 +2,6 @@ import { serve } from "@hono/node-server";
 import { Hono } from "hono";
 import { cors } from "hono/cors";
 
-
 const app = new Hono();
 
 app.use(
@@ -19,14 +18,14 @@ app.get("/", (c) => {
   return c.text("Hello Hono!");
 });
 
-app.get("/", (c) => {
+app.get("/auth", (c) => {
   return c.text("Hello Auth!");
 });
-app.get("playlist", (c) => {
+app.get("/playlist", (c) => {
   return c.text("Hello playlist!");
 });
 
-app.get("get-track", (c) => {
+app.get("/get-track", (c) => {
   return c.text("Hello track!");
 });
 
@@ -38,3 +37,4 @@ serve({
   port,
 });
 
+export default app;
