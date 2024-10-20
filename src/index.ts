@@ -24,6 +24,28 @@ app.get("/", (c) => {
   return c.text("Hello Hono!");
 });
 
+const refreshTokenReq = async(clientId:string,clientSecret:string) => {
+  const refresh_token = await sql`SELECT refresh_token FROM authdata`
+
+  const params = new URLSearchParams();
+  params.append("grant_type", "refresh_token");
+  params.append("client_id", clientId);
+  params.append("client_secret", clientSecret);
+  //params.append("refresh_token", refresh_token);
+  const refreshTokenReq = await fetch(
+    "https://secure.soundcloud.com/oauth/token",
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded",
+        Accept: "application/json; charset=utf-8",
+      },
+      body: params.toString(),
+    }
+  );
+  await sql`DELETE FROM authdata;`
+};
+
 app.get("/auth", async (c) => {
   const { CLIENT_ID, CLIENT_SECRET } = env(c);
   const params = new URLSearchParams();
@@ -42,8 +64,7 @@ app.get("/auth", async (c) => {
     },
   });
   const payload: AuthToken = await authDataReq.json();
-  console.log(payload)
-   await sql`INSERT INTO authdata (access_token, expires_in, refresh_token, scope, token_type) VALUES (${payload.access_token},
+  await sql`INSERT INTO authdata (access_token, expires_in, refresh_token, scope, token_type) VALUES (${payload.access_token},
     ${payload.expires_in},
     ${payload.refresh_token},
     ${payload.scope},
@@ -53,8 +74,26 @@ app.get("/auth", async (c) => {
   return c.text("Auth Succefully");
 });
 
-app.get("/playlist", (c) => {
-  return c.text("Hello playlist!");
+app.get("/playlist", async (c) => {
+  const playlist_id = c.req.query("playlist_id");
+  const access_token = await sql`SELECT access_token FROM authdata`;
+
+/*   const trackStream = await fetch(
+    `https://api.soundcloud.com/playlists?playlist_id=${playlist_id}`,
+    {
+      method: "GET",
+      headers: {
+        Authorization: `OAuth ${access_token}`,
+        "Cache-control": "no-cache",
+        Accept: "application/json; charset=utf-8",
+      },
+    }
+  );
+  const payload = await trackStream.json();
+  c.status(200);
+  c.header("Access-Control-Allow-Origin", "*");
+  return c.json(payload); */
+  return c.text('GO')
 });
 
 app.get("/get-track", (c) => {
