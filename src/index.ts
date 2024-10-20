@@ -42,7 +42,7 @@ app.get("/auth", async (c) => {
     },
   });
   const payload: AuthToken = await authDataReq.json();
-  await sql`Insert into authdata (access_token, expires_in, refresh_token, scope, token_type) Values (${
+  await sql`INSERT INTO authdata (access_token, expires_in, refresh_token, scope, token_type) VALUES (${
     (payload.access_token,
     payload.expires_in,
     payload.refresh_token,
