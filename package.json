@@ -9,8 +9,8 @@
   "dependencies": {
     "@hono/node-server": "^1.13.2",
     "@vercel/postgres": "^0.10.0",
-    "hono": "^4.6.5",
-    "dotenv": "^16.4.5"
+    "dotenv": "^16.4.5",
+    "hono": "^4.6.5"
   },
   "devDependencies": {
     "@types/node": "^20.11.17",
