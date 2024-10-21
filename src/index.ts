@@ -26,7 +26,6 @@ app.get("/", (c) => {
 
 const refreshTokenReq = async (clientId: string, clientSecret: string) => {
   const refresh_object = await sql`SELECT refresh_token FROM authdata`;
-
   const params = new URLSearchParams();
   params.append("grant_type", "refresh_token");
   params.append("client_id", clientId);
@@ -52,7 +51,7 @@ const refreshTokenReq = async (clientId: string, clientSecret: string) => {
     ${payload.scope},
     ${payload.token_type});`;
 };
-const trackStreamReq = async (playlistId: string) => {
+const getPlaylist = async (playlistId: string) => {
   const access_object = await sql`SELECT access_token FROM authdata`;
   const trackStream = await fetch(
     `https://api.soundcloud.com/playlists?playlist_id=${playlistId}`,
@@ -66,6 +65,21 @@ const trackStreamReq = async (playlistId: string) => {
     }
   );
   return trackStream;
+};
+const getTrack = async (trackId: string) => {
+  const access_object = await sql`SELECT access_token FROM authdata`;
+  const trackStreamUrl = await fetch(
+    `https://api.soundcloud.com/tracks/${trackId}/streams`,
+    {
+      method: "GET",
+      headers: {
+        Authorization: `OAuth ${access_object.rows[0]}`,
+        "Cache-control": "no-cache",
+        Accept: "application/json; charset=utf-8",
+      },
+    }
+  );
+  return trackStreamUrl;
 };
 
 app.get("/auth", async (c) => {
@@ -102,24 +116,42 @@ app.get("/playlist", async (c) => {
   const { CLIENT_ID, CLIENT_SECRET } = env(c);
   const playlist_id = c.req.query("playlist_id");
 
-  const stream = await trackStreamReq(playlist_id!);
+  const stream = await getPlaylist(playlist_id!);
   if (stream.status === 401) {
     await refreshTokenReq(CLIENT_ID as string, CLIENT_SECRET as string);
-    await trackStreamReq(playlist_id!);
+    const res = await getPlaylist(playlist_id!);
 
+    const payload = await res.json();
+    c.status(200);
+    c.header("Access-Control-Allow-Origin", "*");
+    return c.json(payload);
+  }
+  if (stream.status === 200) {
     const payload = await stream.json();
     c.status(200);
     c.header("Access-Control-Allow-Origin", "*");
     return c.json(payload);
   }
-  const payload = await stream.json();
-  c.status(200);
-  c.header("Access-Control-Allow-Origin", "*");
-  return c.json(payload);
 });
 
-app.get("/get-track", (c) => {
-  return c.text("Hello track!");
+app.get("/get-track", async (c) => {
+  const { CLIENT_ID, CLIENT_SECRET } = env(c);
+  const track_id = c.req.query("track_id");
+  const currentTrack = await getTrack(track_id!);
+  if (currentTrack.status === 401) {
+    await refreshTokenReq(CLIENT_ID as string, CLIENT_SECRET as string);
+    const res = await getTrack(track_id!);
+    const payload = await res.json();
+    c.status(200);
+    c.header("Access-Control-Allow-Origin", "*");
+    return c.json(payload);
+  }
+  if (currentTrack.status === 200) {
+    c.status(200);
+    c.header("Access-Control-Allow-Origin", "*");
+    const payload = await currentTrack.json();
+    return c.json(payload);
+  }
 });
 
 const port = 3000;
