@@ -72,7 +72,7 @@ const getTrack = async (trackId: string) => {
     {
       method: "GET",
       headers: {
-        Authorization: `OAuth ${access_object.rows[0]}`,
+        Authorization: `OAuth ${access_object.rows[0].access_token}`,
         "Cache-control": "no-cache",
         Accept: "application/json; charset=utf-8",
       },
@@ -137,7 +137,7 @@ app.get("/playlist", async (c) => {
     return c.json(payload);
 });
 
-app.get("/get-track", async (c) => {
+app.get("/track", async (c) => {
   const { CLIENT_ID, CLIENT_SECRET } = env(c);
   const track_id = c.req.query("track_id");
   const currentTrack = await getTrack(track_id!);
