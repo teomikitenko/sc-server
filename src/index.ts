@@ -3,11 +3,10 @@ import { Hono } from "hono";
 import { cors } from "hono/cors";
 import { sql } from "@vercel/postgres";
 import { env } from "hono/adapter";
+import type { AuthToken } from "../types/types";
 import dotenv from "dotenv";
 
 dotenv.config({ path: ".env" });
-
-import type { AuthToken } from "../types/types";
 
 const app = new Hono();
 
@@ -100,7 +99,7 @@ app.get("/auth", async (c) => {
     },
   });
   const payload: AuthToken = await authDataReq.json();
-
+  await sql`DELETE FROM authdata;`;
   await sql`INSERT INTO authdata (access_token, expires_in, refresh_token, scope, token_type) VALUES (${payload.access_token},
     ${payload.expires_in},
     ${payload.refresh_token},
@@ -117,7 +116,7 @@ app.get("/playlist", async (c) => {
   const playlist_id = c.req.query("playlist_id");
 
   const stream = await getPlaylist(playlist_id!);
-  if (stream.status === 401) {
+/*   if (stream.status === 401) {
     await refreshTokenReq(CLIENT_ID as string, CLIENT_SECRET as string);
     const res = await getPlaylist(playlist_id!);
 
@@ -131,7 +130,11 @@ app.get("/playlist", async (c) => {
     c.status(200);
     c.header("Access-Control-Allow-Origin", "*");
     return c.json(payload);
-  }
+  }  */
+  const payload = await stream.json();
+    c.status(200);
+    c.header("Access-Control-Allow-Origin", "*");
+    return c.json(payload);
 });
 
 app.get("/get-track", async (c) => {
