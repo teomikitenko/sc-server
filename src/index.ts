@@ -20,7 +20,7 @@ app.use(
   })
 );
 app.get("/", (c) => {
-  return c.text("Hello Hono!");
+  return c.text("Sc-server is working");
 });
 
 const refreshTokenReq = async (clientId: string, clientSecret: string) => {
@@ -29,7 +29,7 @@ const refreshTokenReq = async (clientId: string, clientSecret: string) => {
   params.append("grant_type", "refresh_token");
   params.append("client_id", clientId);
   params.append("client_secret", clientSecret);
-  params.append("refresh_token", refresh_object.rows[0] as unknown as string);
+  params.append("refresh_token", refresh_object.rows[0].refresh_token as string);
 
   const refreshResult = await fetch(
     "https://secure.soundcloud.com/oauth/token",
@@ -52,13 +52,12 @@ const refreshTokenReq = async (clientId: string, clientSecret: string) => {
 };
 const getPlaylist = async (playlistId: string) => {
   const access_object = await sql`SELECT access_token FROM authdata`;
-  console.log(access_object.rows[0])
   const trackStream = await fetch(
     `https://api.soundcloud.com/playlists?playlist_id=${playlistId}`,
     {
       method: "GET",
       headers: {
-        Authorization: `OAuth ${access_object.rows[0]}`,
+        Authorization: `OAuth ${access_object.rows[0].access_token}`,
         "Cache-control": "no-cache",
         Accept: "application/json; charset=utf-8",
       },
@@ -117,7 +116,7 @@ app.get("/playlist", async (c) => {
   const playlist_id = c.req.query("playlist_id");
 
   const stream = await getPlaylist(playlist_id!);
-/*   if (stream.status === 401) {
+   if (stream.status === 401) {
     await refreshTokenReq(CLIENT_ID as string, CLIENT_SECRET as string);
     const res = await getPlaylist(playlist_id!);
 
@@ -131,7 +130,7 @@ app.get("/playlist", async (c) => {
     c.status(200);
     c.header("Access-Control-Allow-Origin", "*");
     return c.json(payload);
-  }  */
+  }  
   const payload = await stream.json();
     c.status(200);
     c.header("Access-Control-Allow-Origin", "*");
