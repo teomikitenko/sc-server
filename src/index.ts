@@ -52,6 +52,7 @@ const refreshTokenReq = async (clientId: string, clientSecret: string) => {
 };
 const getPlaylist = async (playlistId: string) => {
   const access_object = await sql`SELECT access_token FROM authdata`;
+  console.log(access_object.rows[0])
   const trackStream = await fetch(
     `https://api.soundcloud.com/playlists?playlist_id=${playlistId}`,
     {
