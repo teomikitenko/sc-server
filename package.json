@@ -1,6 +1,7 @@
 {
   "name": "hono-server",
   "type": "module",
+  "version": "1.0.0",
   "scripts": {
     "build": "tsc",
     "start": "node ./dist/src/index.js",
@@ -8,9 +9,13 @@
   },
   "dependencies": {
     "@hono/node-server": "^1.13.2",
+    "@hono/swagger-ui": "^0.4.1",
+    "@hono/zod-openapi": "^0.16.4",
+    "@scalar/hono-api-reference": "^0.5.156",
     "@vercel/postgres": "^0.10.0",
     "dotenv": "^16.4.5",
-    "hono": "^4.6.5"
+    "hono": "^4.6.5",
+    "zod": "^3.23.8"
   },
   "devDependencies": {
     "@types/node": "^20.11.17",
