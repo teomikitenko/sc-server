@@ -4,7 +4,7 @@ import { TrackListExample, TrackExample } from "../components/examples";
 import { apiReference } from "@scalar/hono-api-reference";
 import type { App } from "../../types/types";
 
-export function configureRoutes(app: App) {
+function configureRoutes(app: App) {
   const TrackListRoute = createRoute({
     method: "get",
     path: "playlist?playlist_id={id}",
@@ -89,3 +89,5 @@ export function configureRoutes(app: App) {
     })
   );
 }
+
+export default configureRoutes

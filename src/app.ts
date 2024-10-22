@@ -4,8 +4,8 @@ import { env } from "hono/adapter";
 import type { AuthToken } from "../types/types";
 import dotenv from "dotenv";
 import { OpenAPIHono, createRoute, z } from '@hono/zod-openapi'
-import { configureOpenApi } from "./lib/configure-open-api";
-import { configureRoutes } from "./lib/configure-routes";
+import configureOpenApi from "@/lib/configure-open-api";
+import configureRoutes from "@/lib/configure-routes";
 
 dotenv.config({ path: ".env" });
 
@@ -13,8 +13,8 @@ dotenv.config({ path: ".env" });
 const app = new OpenAPIHono();
 
 
-/* configureOpenApi(app);
-configureRoutes(app); */
+configureOpenApi(app);
+configureRoutes(app);
 
 
 

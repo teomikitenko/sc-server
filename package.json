@@ -3,7 +3,7 @@
   "type": "module",
   "version": "1.0.0",
   "scripts": {
-    "build": "tsc",
+    "build": "tsc && tsc-alias",
     "start": "node ./dist/src/index.js",
     "dev": "tsx watch src/index.ts"
   },
@@ -19,6 +19,7 @@
   },
   "devDependencies": {
     "@types/node": "^20.11.17",
+    "tsc-alias": "^1.8.10",
     "tsx": "^4.19.1",
     "typescript": "^5.6.3"
   }
