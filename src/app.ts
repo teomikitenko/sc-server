@@ -13,8 +13,8 @@ dotenv.config({ path: ".env" });
 const app = new OpenAPIHono();
 
 
-configureOpenApi(app);
-configureRoutes(app);
+/* configureOpenApi(app);
+configureRoutes(app); */
 
 
 
