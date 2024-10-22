@@ -21,22 +21,6 @@ function configureRoutes(app: App) {
     },
   });
 
-  const AuthRoute = createRoute({
-    method: "get",
-    path: "auth",
-
-    responses: {
-      200: {
-        content: {
-          "application/json": {
-            schema: z.string(),
-          },
-        },
-        description: "Returns an error",
-      },
-    },
-  });
-
   const TrackRoute = createRoute({
     method: "get",
     path: "track?track_id={track_id}",
@@ -52,15 +36,6 @@ function configureRoutes(app: App) {
       },
     },
   });
-
-  app.openapi(
-    AuthRoute,
-    (c) => {
-      return c.text("Auth Succefully", 200);
-    }
-
-    // Hook
-  );
 
   app.openapi(
     TrackRoute,
@@ -90,4 +65,4 @@ function configureRoutes(app: App) {
   );
 }
 
-export default configureRoutes
+export default configureRoutes;
