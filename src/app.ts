@@ -4,8 +4,6 @@ import { env } from "hono/adapter";
 import type { AuthToken } from "../types/types";
 import dotenv from "dotenv";
 import { OpenAPIHono, createRoute, z } from '@hono/zod-openapi'
-import { swaggerUI } from '@hono/swagger-ui'
-import { apiReference } from '@scalar/hono-api-reference'
 
 dotenv.config({ path: ".env" });
 
