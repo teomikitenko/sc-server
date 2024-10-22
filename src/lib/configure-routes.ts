@@ -16,7 +16,18 @@ function configureRoutes(app: App) {
             schema: trackListSchema,
           },
         },
-        description: "Returns an error",
+        description: "",
+      },
+      404: {
+        content: {
+          "application/json": {
+            schema: z.object({
+              code: z.number(),
+              message: z.string(),
+            }),
+          },
+        },
+        description: "",
       },
     },
   });
@@ -32,7 +43,18 @@ function configureRoutes(app: App) {
             schema: trackSchema,
           },
         },
-        description: "Returns an error",
+        description: "",
+      },
+      404: {
+        content: {
+          "application/json": {
+            schema: z.object({
+              code: z.number(),
+              message: z.string(),
+            }),
+          },
+        },
+        description: "",
       },
     },
   });
@@ -41,18 +63,38 @@ function configureRoutes(app: App) {
     TrackRoute,
     (c) => {
       return c.json(TrackExample, 200);
-    }
-
+    },
     // Hook
+    (result, c) => {
+      if (!result.success) {
+        return c.json(
+          {
+            code: 404,
+            message: "",
+          },
+          404
+        );
+      }
+    }
   );
 
   app.openapi(
     TrackListRoute,
     (c) => {
       return c.json(TrackListExample, 200);
-    }
+    },
 
-    // Hook
+    (result, c) => {
+      if (!result.success) {
+        return c.json(
+          {
+            code: 404,
+            message: "",
+          },
+          404
+        );
+      }
+    }
   );
 
   app.get(

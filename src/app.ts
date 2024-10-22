@@ -174,4 +174,8 @@ app.get("/track", async (c) => {
     return c.json(payload);
   }
 });
+
+app.notFound((c) => {
+  return c.text('Route not found', 404)
+})
 export default app;
