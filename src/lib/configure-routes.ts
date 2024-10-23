@@ -16,7 +16,7 @@ function configureRoutes(app: App) {
             schema: trackListSchema,
           },
         },
-        description: "",
+        description: "Get tracklist",
       },
       404: {
         content: {
@@ -27,7 +27,7 @@ function configureRoutes(app: App) {
             }),
           },
         },
-        description: "",
+        description: "Route does not exist",
       },
     },
   });
@@ -43,7 +43,7 @@ function configureRoutes(app: App) {
             schema: trackSchema,
           },
         },
-        description: "",
+        description: "Get track",
       },
       404: {
         content: {
@@ -54,7 +54,7 @@ function configureRoutes(app: App) {
             }),
           },
         },
-        description: "",
+        description: "Route does not exist",
       },
     },
   });
@@ -70,7 +70,7 @@ function configureRoutes(app: App) {
         return c.json(
           {
             code: 404,
-            message: "",
+            message: "Route does not exist",
           },
           404
         );
@@ -89,7 +89,7 @@ function configureRoutes(app: App) {
         return c.json(
           {
             code: 404,
-            message: "",
+            message: "Route does not exist",
           },
           404
         );

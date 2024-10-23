@@ -176,6 +176,6 @@ app.get("/track", async (c) => {
 });
 
 app.notFound((c) => {
-  return c.text('Route not found', 404)
-})
+  return c.text("Route does not exist", 404);
+});
 export default app;
