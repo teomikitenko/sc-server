@@ -132,6 +132,12 @@ app.get("/playlist", async (c) => {
       c.header("Access-Control-Allow-Origin", "*");
       return c.json(payload);
     }
+    if (stream.status === 500) {
+      const payload = await stream.json();
+      c.status(200);
+      c.header("Access-Control-Allow-Origin", "*");
+      return c.json(payload);
+    }
   }
   if (access_object.rowCount === 0) {
     await authReq(CLIENT_ID as string, CLIENT_SECRET as string);
@@ -158,6 +164,12 @@ app.get("/track", async (c) => {
       return c.json(payload);
     }
     if (currentTrack.status === 200) {
+      c.status(200);
+      c.header("Access-Control-Allow-Origin", "*");
+      const payload = await currentTrack.json();
+      return c.json(payload);
+    }
+    if (currentTrack.status === 500) {
       c.status(200);
       c.header("Access-Control-Allow-Origin", "*");
       const payload = await currentTrack.json();
