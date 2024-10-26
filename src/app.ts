@@ -15,7 +15,6 @@ configureOpenApi(app);
 configureRoutes(app);
 
 app.use(
-  "*",
   cors({
     origin: "*",
     allowMethods: ["POST", "GET", "OPTIONS"],
