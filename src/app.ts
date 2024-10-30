@@ -22,6 +22,7 @@ app.use(
     maxAge: 600,
     credentials: true,
   })
+  return next()
 );
 app.get("/", (c) => {
   return c.text("Sc-server is working");
