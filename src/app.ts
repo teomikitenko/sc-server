@@ -11,10 +11,6 @@ dotenv.config({ path: ".env" });
 
 const app = new OpenAPIHono();
 
-import { Hono } from 'hono';
-
-const app = new Hono();
-
 // Middleware для CORS
 app.use('*', async (c, next) => {
   c.res.headers.append('Access-Control-Allow-Origin', '*');
