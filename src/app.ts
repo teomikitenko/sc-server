@@ -24,14 +24,6 @@ app.use('*', async (c, next) => {
   await next();
 });
 
-// Ваші маршрути тут
-app.get('/', (c) => c.text('Hello, Hono!'));
-
-export default app;
-
-
-
-
 configureOpenApi(app);
 configureRoutes(app);
 
