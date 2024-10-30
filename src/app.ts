@@ -156,7 +156,7 @@ app.get("/playlist", async (c) => {
       c.header("Access-Control-Allow-Origin", "*");
       c.header("Content-Type", "application/manifest+json");
       return c.json(payload);
-    }
+    }else return c.text("Oops")
   } catch (error) {
     return c.text("Internal Server Error", 500);
   }
@@ -202,7 +202,7 @@ app.get("/track", async (c) => {
       c.header("Access-Control-Allow-Origin", "*");
       c.header("Content-Type", "application/manifest+json");
       return c.json(payload);
-    }
+    }else return c.text("Oops")
   } catch (error) {
     return c.text("Internal Server Error", 500);
   }
