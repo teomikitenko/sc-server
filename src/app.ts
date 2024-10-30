@@ -16,14 +16,7 @@ configureRoutes(app);
 
 app.use(
   "*",
-  cors({
-    origin: "*",
-    allowMethods: ["POST", "GET", "OPTIONS"],
-    maxAge: 600,
-    credentials: true,
-  })
-  await next()
-);
+  cors();
 app.get("/", (c) => {
   return c.text("Sc-server is working");
 });
