@@ -21,7 +21,7 @@ app.use('*', async (c, next) => {
     return c.text('', 204); // Відповідь на OPTIONS-запити
   }
   
-  await next();
+  return await next();
 });
 
 configureOpenApi(app);
