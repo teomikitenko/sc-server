@@ -120,6 +120,7 @@ app.get("/playlist", async (c) => {
   const { CLIENT_ID, CLIENT_SECRET } = env(c);
   const playlist_id = c.req.query("playlist_id");
   const access_object = await sql`SELECT * FROM authdata`;
+  console.log(access_object)
   try {
     if ( access_object.rowCount && access_object.rowCount > 0) {
       const stream = await getPlaylist(playlist_id!);
