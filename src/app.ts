@@ -16,7 +16,7 @@ configureRoutes(app);
 
 app.use(
   "*",
-  cors();
+  cors());
 app.get("/", (c) => {
   return c.text("Sc-server is working");
 });
