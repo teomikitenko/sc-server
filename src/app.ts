@@ -14,9 +14,6 @@ const app = new OpenAPIHono();
 configureOpenApi(app);
 configureRoutes(app);
 
-app.use(
-  "*",
-  cors());
 app.get("/", (c) => {
   return c.text("Sc-server is working");
 });
