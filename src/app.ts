@@ -121,7 +121,7 @@ app.get("/playlist", async (c) => {
   const playlist_id = c.req.query("playlist_id");
   const access_object = await sql`SELECT * FROM authdata`;
   try {
-    if (access_object.rowCount > 0) {
+    if ( access_object.rowCount && access_object.rowCount > 0) {
       const stream = await getPlaylist(playlist_id!);
       if (stream.status === 401) {
         await refreshTokenReq(CLIENT_ID as string, CLIENT_SECRET as string);
@@ -148,7 +148,7 @@ app.get("/playlist", async (c) => {
         return c.json(payload);
       }
     }
-    if (access_object.rowCount === 0) {
+    if ( access_object.rowCount && access_object.rowCount === 0 ) {
       await authReq(CLIENT_ID as string, CLIENT_SECRET as string);
       const res = await getPlaylist(playlist_id!);
       const payload = await res.json();
@@ -167,7 +167,7 @@ app.get("/track", async (c) => {
   const track_id = c.req.query("track_id");
   const access_object = await sql`SELECT * FROM authdata`;
   try {
-    if (access_object.rowCount > 0) {
+    if (  access_object.rowCount && access_object.rowCount > 0 ) {
       const currentTrack = await getTrack(track_id!);
       if (currentTrack.status === 401) {
         await refreshTokenReq(CLIENT_ID as string, CLIENT_SECRET as string);
@@ -194,7 +194,7 @@ app.get("/track", async (c) => {
       }
     }
 
-    if (access_object.rowCount === 0) {
+    if ( access_object.rowCount && access_object.rowCount === 0) {
       await authReq(CLIENT_ID as string, CLIENT_SECRET as string);
       const res = await getTrack(track_id!);
       const payload = await res.json();
