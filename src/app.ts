@@ -49,13 +49,11 @@ const refreshTokenReq = async (clientId: string, clientSecret: string) => {
       body: params.toString(),
     }
   );
-  await sql`DELETE FROM authdata;`;
+ 
   const payload: AuthToken = await refreshResult.json();
-  await sql`INSERT INTO authdata (access_token, expires_in, refresh_token, scope, token_type) VALUES (${payload.access_token},
-    ${payload.expires_in},
-    ${payload.refresh_token},
-    ${payload.scope},
-    ${payload.token_type});`;
+  await sql`UPDATE authdata
+SET access_token=${payload.access_token},expires_in=${payload.expires_in}, refresh_token=${payload.refresh_token}, scope='token', token_type=${payload.token_type}
+WHERE scope='token';`;
 };
 const getPlaylist = async (playlistId: string) => {
   const access_object = await sql`SELECT access_token FROM authdata`;
@@ -104,12 +102,9 @@ const authReq = async (clientId: string, clientSecret: string) => {
     },
   });
   const payload: AuthToken = await authDataReq.json();
-  await sql`DELETE FROM authdata;`;
-  await sql`INSERT INTO authdata (access_token, expires_in, refresh_token, scope, token_type) VALUES (${payload.access_token},
-    ${payload.expires_in},
-    ${payload.refresh_token},
-    ${payload.scope},
-    ${payload.token_type});`;
+  await sql`UPDATE authdata
+SET access_token=${payload.access_token},expires_in=${payload.expires_in}, refresh_token=${payload.refresh_token}, scope='token', token_type=${payload.token_type}
+WHERE scope='token';`;
 };
 
 app.get("/playlist", async (c) => {
