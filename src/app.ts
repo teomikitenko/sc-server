@@ -11,14 +11,14 @@ dotenv.config({ path: ".env" });
 
 const app = new OpenAPIHono();
 
-// Middleware для CORS
+
 app.use('*', async (c, next) => {
   c.res.headers.append('Access-Control-Allow-Origin', '*');
   c.res.headers.append('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
   c.res.headers.append('Access-Control-Allow-Headers', 'Content-Type, Authorization');
   
   if (c.req.method === 'OPTIONS') {
-    return c.text('', 204); // Відповідь на OPTIONS-запити
+    return c.text('', 204); 
   }
   
   return await next();
